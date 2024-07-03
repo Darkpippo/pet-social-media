@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+
 import com.example.demo.model.exceptions.InvalidCredentialsException;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -27,13 +28,13 @@ public class User {
     }
 
     public User(String username, String password, String firstName, String lastName, String email, String phone) {
-        if(email==null && phone==null){
+        if (email == null && phone == null) {
             throw new InvalidCredentialsException();
         }
-        if(email!=null && email.isEmpty()){
+        if (email != null && email.isEmpty()) {
             throw new InvalidCredentialsException();
         }
-        if(phone!=null && phone.isEmpty()){
+        if (phone != null && phone.isEmpty()) {
             throw new InvalidCredentialsException();
         }
         this.username = username;
