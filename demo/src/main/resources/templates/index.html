@@ -9,16 +9,16 @@
             font-family: Arial, sans-serif;
             margin: 20px;
         }
-        .dog-card {
+        .dogBreed-card {
             border: 1px solid #ccc;
             border-radius: 5px;
             padding: 10px;
             margin-bottom: 10px;
         }
-        .dog-name {
+        .dogBreed-name {
             font-weight: bold;
         }
-        .dog-description {
+        .dogBreed-description {
             color: #666;
         }
     </style>
@@ -26,7 +26,7 @@
 <body>
 <h1>List of Dogs</h1>
 
-<div id="dogList">
+<div id="dogBreedList">
 
 </div>
 
@@ -103,18 +103,18 @@
     });
 
     function displayDogs(dogs) {
-        const dogListContainer = document.getElementById('dogList');
-        dogs.forEach(dog => {
+        const dogListContainer = document.getElementById('dogBreedList');
+        dogs.forEach(dogBreed => {
             const dogCard = document.createElement('div');
-            dogCard.classList.add('dog-card');
+            dogCard.classList.add('dogBreed-card');
 
             const dogName = document.createElement('div');
-            dogName.classList.add('dog-name');
-            dogName.textContent = dog.name;
+            dogName.classList.add('dogBreed-name');
+            dogName.textContent = dogBreed.name;
 
             const dogDescription = document.createElement('div');
-            dogDescription.classList.add('dog-description');
-            dogDescription.textContent = dog.description;
+            dogDescription.classList.add('dogBreed-description');
+            dogDescription.textContent = dogBreed.description;
 
             dogCard.appendChild(dogName);
             dogCard.appendChild(dogDescription);

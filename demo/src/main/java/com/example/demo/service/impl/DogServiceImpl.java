@@ -1,10 +1,12 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.model.Dog;
 import com.example.demo.model.exceptions.InvalidDogIdexception;
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.example.demo.repository.DogBreedRepository;
+import com.example.demo.service.DogBreedService;
 import com.example.demo.service.DogService;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.example.demo.model.Dog;
+import com.example.demo.model.DogBreed;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
@@ -14,18 +16,18 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 @Service
-public class DogServiceImpl implements DogService {
-    private final DogRepository dogRepository;
+public class DogServiceImpl implements DogBreedService {
+    private final DogBreedRepository dogBreedRepository;
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
-    public DogServiceImpl(DogRepository dogRepository, RestTemplate restTemplate, ObjectMapper objectMapper) {
-        this.dogRepository = dogRepository;
+    public DogServiceImpl(DogBreedRepository dogBreedRepository, RestTemplate restTemplate, ObjectMapper objectMapper) {
+        this.dogBreedRepository = dogBreedRepository;
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
     }
 
-    public void saveDogsFromApi() {
+    public void saveDogBreedsFromApi() {
         String apiUrl = "https://dogapi.dog/api/v2/breeds";
         String jsonData = restTemplate.getForObject(apiUrl, String.class);
 
@@ -36,19 +38,19 @@ public class DogServiceImpl implements DogService {
                 for (JsonNode node : dataNode) {
                     JsonNode attributes = node .get("attributes");
 
-                    Dog dog = new Dog();
+                    DogBreed dogBreed = new DogBreed();
 
-                    dog.setName(attributes.get("name").asText());
-                    dog.setDescription(attributes.get("description").asText());
-                    dog.setMaxLife(attributes.get("life").get("max").asInt());
-                    dog.setMinLife(attributes.get("life").get("min").asInt());
-                    dog.setMaxMaleWeight(attributes.get("male_weight").get("max").asInt());
-                    dog.setMinMaleWeight(attributes.get("male_weight").get("min").asInt());
-                    dog.setMaxFemaleWeight(attributes.get("female_weight").get("max").asInt());
-                    dog.setMinFemaleWeight(attributes.get("female_weight").get("min").asInt());
-                    dog.setHypoallergenic(attributes.get("hypoallergenic").asBoolean());
+                    dogBreed.setBreedName(attributes.get("name").asText());
+                    dogBreed.setDescription(attributes.get("description").asText());
+                    dogBreed.setMaxLife(attributes.get("life").get("max").asInt());
+                    dogBreed.setMinLife(attributes.get("life").get("min").asInt());
+                    dogBreed.setMaxMaleWeight(attributes.get("male_weight").get("max").asInt());
+                    dogBreed.setMinMaleWeight(attributes.get("male_weight").get("min").asInt());
+                    dogBreed.setMaxFemaleWeight(attributes.get("female_weight").get("max").asInt());
+                    dogBreed.setMinFemaleWeight(attributes.get("female_weight").get("min").asInt());
+                    dogBreed.setHypoallergenic(attributes.get("hypoallergenic").asBoolean());
 
-                    dogRepository.save(dog);
+                    dogBreedRepository.save(dogBreed);
                 }
             }
         } catch (JsonProcessingException e) {
@@ -57,34 +59,34 @@ public class DogServiceImpl implements DogService {
     }
 
     @Override
-    public List<Dog> listAll() {
-        return dogRepository.findAll();
+    public List<DogBreed> listAll() {
+        return dogBreedRepository.findAll();
     }
 
     @Override
-    public Dog saveDog(Dog dog) {
-        return dogRepository.save(dog);
+    public DogBreed saveDogBreed(DogBreed dogBreed) {
+        return dogBreedRepository.save(dogBreed);
     }
 
     @Override
-    public Dog getDogById(Long id) {
-        return dogRepository.findById(id).orElseThrow(InvalidDogIdexception::new);
+    public DogBreed getDogBreedById(Long id) {
+        return dogBreedRepository.findById(id).orElseThrow(InvalidDogIdexception::new);
     }
 
     @Override
-    public Dog updateDog(Long id, Dog updatedDog) {
-        Dog existingDog = dogRepository.findById(id).orElseThrow(InvalidDogIdexception::new);
+    public DogBreed updateDogBreed(Long id, DogBreed updatedDogBreed); {
+        DogBreed existingDogBreed = dogBreedRepository.findById(id).orElseThrow(InvalidDogIdexception::new);
 
-        existingDog.setName(updatedDog.getName());
-        existingDog.setDescription(updatedDog.getDescription());
-        existingDog.setMaxLife(updatedDog.getMaxLife());
-        existingDog.setMinLife(updatedDog.getMinLife());
-        existingDog.setMaxMaleWeight(updatedDog.getMaxMaleWeight());
-        existingDog.setMinMaleWeight(updatedDog.getMinMaleWeight());
-        existingDog.setMaxFemaleWeight(updatedDog.getMaxFemaleWeight());
-        existingDog.setMinFemaleWeight(updatedDog.getMinFemaleWeight());
-        existingDog.setHypoallergenic(updatedDog.isHypoallergenic());
+        existingDogBreed.setBreedName(updatedDogBreed.getBreedName());
+        existingDogBreed.setDescription(updatedDogBreed.getDescription());
+        existingDogBreed.setMaxLife(updatedDogBreed.getMaxLife());
+        existingDogBreed.setMinLife(updatedDogBreed.getMinLife());
+        existingDogBreed.setMaxMaleWeight(updatedDogBreed.getMaxMaleWeight());
+        existingDogBreed.setMinMaleWeight(updatedDogBreed.getMinMaleWeight());
+        existingDogBreed.setMaxFemaleWeight(updatedDogBreed.getMaxFemaleWeight());
+        existingDogBreed.setMinFemaleWeight(updatedDogBreed.getMinFemaleWeight());
+        existingDogBreed.setHypoallergenic(updatedDogBreed.isHypoallergenic());
 
-        return dogRepository.save(existingDog);
+        return dogBreedRepository.save(existingDogBreed);
     }
 }
