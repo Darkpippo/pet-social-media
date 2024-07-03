@@ -4,7 +4,6 @@ import com.example.demo.model.Dog;
 import com.example.demo.model.exceptions.InvalidDogIdexception;
 import com.example.demo.repository.DogBreedRepository;
 import com.example.demo.service.DogBreedService;
-import com.example.demo.service.DogService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.example.demo.model.DogBreed;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -16,12 +15,12 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 @Service
-public class DogServiceImpl implements DogBreedService {
+public class DogBreedServiceImpl implements DogBreedService {
     private final DogBreedRepository dogBreedRepository;
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
-    public DogServiceImpl(DogBreedRepository dogBreedRepository, RestTemplate restTemplate, ObjectMapper objectMapper) {
+    public DogBreedServiceImpl(DogBreedRepository dogBreedRepository, RestTemplate restTemplate, ObjectMapper objectMapper) {
         this.dogBreedRepository = dogBreedRepository;
         this.restTemplate = restTemplate;
         this.objectMapper = objectMapper;
@@ -74,7 +73,7 @@ public class DogServiceImpl implements DogBreedService {
     }
 
     @Override
-    public DogBreed updateDogBreed(Long id, DogBreed updatedDogBreed); {
+    public DogBreed updateDogBreed(Long id, DogBreed updatedDogBreed) {
         DogBreed existingDogBreed = dogBreedRepository.findById(id).orElseThrow(InvalidDogIdexception::new);
 
         existingDogBreed.setBreedName(updatedDogBreed.getBreedName());
@@ -89,4 +88,6 @@ public class DogServiceImpl implements DogBreedService {
 
         return dogBreedRepository.save(existingDogBreed);
     }
+
+
 }
