@@ -19,7 +19,7 @@ public class DogController {
         this.dogBreedService = dogService;
     }
 
-    @GetMapping("/dogs")
+    @GetMapping("/dog-breeds")
     public List<DogBreed> fetch() {
         List<DogBreed> dogBreedList = dogBreedService.listAll();
         if(dogBreedList.isEmpty()) {
@@ -28,20 +28,20 @@ public class DogController {
         return dogBreedList;
     }
 
-    @GetMapping("/fetch")
+    @GetMapping("/breed-fetch")
     public ResponseEntity<String> fetchAndSaveDogs() {
         dogBreedService.saveDogBreedsFromApi();
         return ResponseEntity.ok("Dogs fetched and saved successfully");
     }
 
-    @PostMapping("/dogs")
+    @PostMapping("/dog-breed")
     @ResponseStatus(HttpStatus.CREATED)
-    public DogBreed create(@RequestBody DogBreed dogBreed) {
+    public DogBreed saveDogBreed(@RequestBody DogBreed dogBreed) {
         return dogBreedService.saveDogBreed(dogBreed);
     }
 
-    @GetMapping("/dogs/{id}")
-    public DogBreed getById(@PathVariable Long id) {
+    @GetMapping("/dog-breed/{id}")
+    public DogBreed getDogBreedById(@PathVariable Long id) {
         return dogBreedService.getDogBreedById(id);
     }
 }
