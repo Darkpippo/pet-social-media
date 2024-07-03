@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of Dogs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .dog-card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .dog-name {
+            font-weight: bold;
+        }
+        .dog-description {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+<h1>List of Dogs</h1>
+
+<div id="dogList">
+
+</div>
+
+<!-- Optional: Add a loading indicator -->
+<div id="loading" style="display: none;">Loading...</div>
+
+<!-- Optional: Add a message for when there are no dogs -->
+<div id="noDogsMessage" style="display: none;">No dogs found.</div>
+
+<form th:action="@{/api/dogs}" th:object="${dogForm}" method="post">
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name" th:field="*{name}" required>
+    </div>
+    <div>
+        <label for="description">Description:</label>
+        <textarea id="description" th:field="*{description}" required></textarea>
+    </div>
+    <div>
+        <label for="maxLife">Max Life:</label>
+        <input type="number" id="maxLife" th:field="*{maxLife}" required>
+    </div>
+    <div>
+        <label for="minLife">Min Life:</label>
+        <input type="number" id="minLife" th:field="*{minLife}" required>
+    </div>
+    <div>
+        <label for="maxMaleWeight">Max Male Weight:</label>
+        <input type="number" id="maxMaleWeight" th:field="*{maxMaleWeight}" required>
+    </div>
+    <div>
+        <label for="minMaleWeight">Min Male Weight:</label>
+        <input type="number" id="minMaleWeight" th:field="*{minMaleWeight}" required>
+    </div>
+    <div>
+        <label for="maxFemaleWeight">Max Female Weight:</label>
+        <input type="number" id="maxFemaleWeight" th:field="*{maxFemaleWeight}" required>
+    </div>
+    <div>
+        <label for="minFemaleWeight">Min Female Weight:</label>
+        <input type="number" id="minFemaleWeight" th:field="*{minFemaleWeight}" required>
+    </div>
+    <div>
+        <label for="hypoallergenic">Hypoallergenic:</label>
+        <input type="checkbox" id="hypoallergenic" th:field="*{hypoallergenic}">
+    </div>
+    <div>
+        <button type="submit">Add Dog</button>
+    </div>
+</form>
+
+<script>
+    fetch('http://localhost:8080/api/dogs')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data); // Array of Dog objects
+        })
+        .catch(error => console.error('Error fetching dogs:', error));
+
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('/dogs')
+            .then(response => response.json())
+            .then(data => {
+                if (data.length > 0) {
+                    displayDogs(data);
+                } else {
+                    document.getElementById('noDogsMessage').style.display = 'block';
+                }
+            })
+            .catch(error => console.error('Error fetching dogs:', error))
+            .finally(() => {
+                document.getElementById('loading').style.display = 'none';
+            });
+    });
+
+    function displayDogs(dogs) {
+        const dogListContainer = document.getElementById('dogList');
+        dogs.forEach(dog => {
+            const dogCard = document.createElement('div');
+            dogCard.classList.add('dog-card');
+
+            const dogName = document.createElement('div');
+            dogName.classList.add('dog-name');
+            dogName.textContent = dog.name;
+
+            const dogDescription = document.createElement('div');
+            dogDescription.classList.add('dog-description');
+            dogDescription.textContent = dog.description;
+
+            dogCard.appendChild(dogName);
+            dogCard.appendChild(dogDescription);
+
+            dogListContainer.appendChild(dogCard);
+        });
+    }
+</script>
+</body>
+</html>
