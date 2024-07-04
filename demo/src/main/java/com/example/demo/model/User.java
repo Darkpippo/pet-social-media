@@ -26,7 +26,7 @@ public class User {
     private String address;
     private String city;
 
-    @ManyToMany
+    @OneToMany
     private List<Pet> petList;
 
     public User() {
