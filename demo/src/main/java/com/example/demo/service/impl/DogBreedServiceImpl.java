@@ -8,6 +8,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.example.demo.model.DogBreed;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import com.example.demo.repository.DogRepository;
 import org.springframework.web.client.RestTemplate;
@@ -16,6 +18,7 @@ import java.util.List;
 
 @Service
 public class DogBreedServiceImpl implements DogBreedService {
+    private static final Logger log = LoggerFactory.getLogger(DogBreedServiceImpl.class);
     private final DogBreedRepository dogBreedRepository;
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
@@ -87,5 +90,12 @@ public class DogBreedServiceImpl implements DogBreedService {
         existingDogBreed.setHypoallergenic(updatedDogBreed.isHypoallergenic());
 
         return dogBreedRepository.save(existingDogBreed);
+    }
+
+    @Override
+    public void deleteDogBreed(Long id) {
+        DogBreed dogBreed = getDogBreedById(id);
+        dogBreedRepository.delete(dogBreed);
+        log.info("Dog deleted");
     }
 }

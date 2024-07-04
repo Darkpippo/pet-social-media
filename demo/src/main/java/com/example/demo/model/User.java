@@ -14,6 +14,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String username;
     private String password;
     private String firstName;
@@ -41,6 +42,7 @@ public class User {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-
+        this.email = email;  // Make sure to initialize all required fields
+        this.phone = phone;
     }
 }

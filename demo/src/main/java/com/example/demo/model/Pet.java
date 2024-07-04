@@ -15,7 +15,7 @@ public class Pet {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")  // Ensure that the join column is specified
+    @JoinColumn(name = "user_id")
     private User user;
 
     public Pet(User user) {

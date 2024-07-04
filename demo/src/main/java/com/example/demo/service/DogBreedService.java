@@ -11,4 +11,5 @@ public interface DogBreedService {
     public DogBreed saveDogBreed(DogBreed dogBreed);
     public DogBreed getDogBreedById(Long id);
     public DogBreed updateDogBreed(Long id, DogBreed updatedDogBreed);
+    public void deleteDogBreed(Long id);
 }
