@@ -14,7 +14,6 @@ public class DogBreed extends Dog {
 
     @Column(name = "description", length = 1500)
     private String description;
-
     private Integer maxLife;
     private Integer minLife;
     private Integer maxMaleWeight;
